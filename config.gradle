@@ -1,0 +1,19 @@
+ext {
+
+    //android配置
+    android = [
+            compileSdkVersion        : 29,
+            buildToolsVersion        : "29.0.2" ,
+            applicationId            : "com.jk.mymeet" ,
+            minSdkVersion            : 18,
+            targetSdkVersion         : 29,
+            versionCode              : 1,
+            versionName              : "1.0",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
+    ]
+
+    //依赖配置
+    dependencies = [
+            "appcompat": 'androidx.appcompat:appcompat:1.1.0'
+    ]
+}

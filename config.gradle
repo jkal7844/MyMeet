@@ -3,9 +3,9 @@ ext {
     //android配置
     android = [
             compileSdkVersion        : 29,
-            buildToolsVersion        : "29.0.2" ,
-            applicationId            : "com.jk.mymeet" ,
-            minSdkVersion            : 18,
+            buildToolsVersion        : "29.0.2",
+            applicationId            : "com.jk.mymeet",
+            minSdkVersion            : 19,
             targetSdkVersion         : 29,
             versionCode              : 1,
             versionName              : "1.0",
@@ -14,6 +14,19 @@ ext {
 
     //依赖配置
     dependencies = [
-            "appcompat": 'androidx.appcompat:appcompat:1.1.0'
+            "appcompat": 'androidx.appcompat:appcompat:1.1.0',
+            "httpclient"     : 'org.apache.http.legacy',
+            "bmobsdk"        : 'cn.bmob.android:bmob-sdk:3.7.3-rc1',
+            "rxjava2"        : "io.reactivex.rxjava2:rxjava:2.2.2",
+            "rxandroid2"     : 'io.reactivex.rxjava2:rxandroid:2.1.0',
+            "okio"           : 'com.squareup.okio:okio:2.1.0',
+            "gson"           : 'com.google.code.gson:gson:2.8.5',
+            "okhttp3"        : 'com.squareup.okhttp3:okhttp:3.12.0',
+            "utils"          : 'com.blankj:utilcode:1.26.0',
+    ]
+
+    //仓库
+    maven = [
+            "bmobUrl": "https://raw.github.com/bmob/bmob-android-sdk/master"
     ]
 }

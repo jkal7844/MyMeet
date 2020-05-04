@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 
-import com.jk.framework.R;
-
 /**
  * Created By Admin on 2020/1/2
  * Describe: 沉浸式实现

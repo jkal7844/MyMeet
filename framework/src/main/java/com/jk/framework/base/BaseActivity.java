@@ -8,6 +8,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -111,7 +112,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mPerNoList.clear();
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0) {

@@ -59,6 +59,7 @@ dependencies {
 
     //添加framework依赖
     implementation project(path: ':framework')
+    implementation project(path: ':mylibrary')
 
     //butterKnife
     implementation 'com.jakewharton:butterknife:10.2.1'

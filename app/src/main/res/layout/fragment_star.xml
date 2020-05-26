@@ -83,7 +83,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/img_star_card_1" />
 
             <TextView
@@ -109,7 +109,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/img_star_card_2" />
 
             <TextView
@@ -135,7 +135,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/img_star_card_3" />
 
             <TextView
@@ -161,7 +161,7 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/img_star_card_4" />
 
             <TextView

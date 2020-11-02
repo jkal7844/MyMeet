@@ -4,6 +4,15 @@ import android.content.Context;
 
 import com.jk.framework.utils.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.rongcloud.rtc.api.stream.RCRTCVideoStreamConfig;
+import cn.rongcloud.rtc.base.RCRTCParamsType;
+import io.rong.calllib.IRongCallListener;
+import io.rong.calllib.IRongReceivedCallListener;
+import io.rong.calllib.RongCallClient;
+import io.rong.calllib.RongCallCommon;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -162,4 +171,163 @@ public class CloudManager {
                 iSendMessageCallback
         );
     }
+
+
+    //-------------------------Call Api-------------------------------
+
+    /**
+     * 拨打视频/音频
+     *
+     * @param targetId
+     * @param type
+     */
+    public void startCall(Context mContext, String targetId, RongCallCommon.CallMediaType type) {
+        //检查设备可用
+       /*  if (!isVoIPEnabled(mContext)) {
+            return;
+        }
+       if(!isConnect()){
+            Toast.makeText(mContext, mContext.getString(R.string.text_server_status), Toast.LENGTH_SHORT).show();
+            return;
+        }*/
+        List<String> userIds = new ArrayList<>();
+        userIds.add(targetId);
+        RongCallClient.getInstance().startCall(
+                Conversation.ConversationType.PRIVATE,
+                targetId,
+                userIds,
+                null,
+                type,
+                null);
+    }
+
+    /**
+     * 监听音频通话
+     *
+     * @param listener
+     */
+    public void setReceivedCallListener(IRongReceivedCallListener listener) {
+        if (null == listener) {
+            return;
+        }
+        RongCallClient.setReceivedCallListener(listener);
+    }
+
+    /**
+     * 接听
+     *
+     * @param callId
+     */
+    public void acceptCall(String callId) {
+        LogUtils.i("acceptCall:" + callId);
+        RongCallClient.getInstance().acceptCall(callId);
+    }
+
+    /**
+     * 挂断
+     *
+     * @param callId
+     */
+    public void hangUpCall(String callId) {
+        LogUtils.i("hangUpCall:" + callId);
+        RongCallClient.getInstance().hangUpCall(callId);
+    }
+
+    /**
+     * 切换媒体
+     *
+     * @param mediaType
+     */
+    public void changeCallMediaType(RongCallCommon.CallMediaType mediaType) {
+        RongCallClient.getInstance().changeCallMediaType(mediaType);
+    }
+
+    /**
+     * 切换摄像头
+     */
+    public void switchCamera() {
+        RongCallClient.getInstance().switchCamera();
+    }
+
+    /**
+     * 摄像头开关
+     *
+     * @param enabled
+     */
+    public void setEnableLocalVideo(boolean enabled) {
+        RongCallClient.getInstance().setEnableLocalVideo(enabled);
+    }
+
+    /**
+     * 音频开关
+     *
+     * @param enabled
+     */
+    public void setEnableLocalAudio(boolean enabled) {
+        RongCallClient.getInstance().setEnableLocalAudio(enabled);
+    }
+
+    /**
+     * 免提开关
+     *
+     * @param enabled
+     */
+    public void setEnableSpeakerphone(boolean enabled) {
+        RongCallClient.getInstance().setEnableSpeakerphone(enabled);
+        RCRTCVideoStreamConfig.Builder builder = RCRTCVideoStreamConfig.Builder.create();
+        builder.setVideoResolution(RCRTCParamsType.RCRTCVideoResolution.RESOLUTION_480_640);
+        RongCallClient.getInstance().setVideoConfig(builder);
+    }
+
+    /**
+     * 设置分辨率
+     * @param mRCRTCVideoResolution
+     */
+    public void setEnableSpeakerphone(RCRTCParamsType.RCRTCVideoResolution mRCRTCVideoResolution) {
+        RCRTCVideoStreamConfig.Builder builder = RCRTCVideoStreamConfig.Builder.create();
+        builder.setVideoResolution(mRCRTCVideoResolution);
+        RongCallClient.getInstance().setVideoConfig(builder);
+    }
+
+  /*  *//**
+     * 开启录音
+     *
+     * @param filePath
+     *//*
+    public void startAudioRecording(String filePath) {
+        RongCallClient.getInstance().startAudioRecording(filePath);
+    }
+
+    *//**
+     * 关闭录音
+     *//*
+    public void stopAudioRecording() {
+        RongCallClient.getInstance().stopAudioRecording();
+    }*/
+
+    /**
+     * 监听通话状态
+     *
+     * @param listener
+     */
+    public void setVoIPCallListener(IRongCallListener listener) {
+        if (null == listener) {
+            return;
+        }
+        RongCallClient.getInstance().setVoIPCallListener(listener);
+    }
+
+    /**
+     * 检查设备是否可用通话
+     *
+     * @param mContext
+     */
+    public boolean isVoIPEnabled(Context mContext) {
+        if (!RongCallClient.getInstance().isVoIPEnabled(mContext)) {
+//            Toast.makeText(mContext, mContext.getString(R.string.text_devices_not_supper_audio), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
 }

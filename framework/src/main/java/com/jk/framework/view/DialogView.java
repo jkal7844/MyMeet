@@ -14,12 +14,14 @@ public class DialogView extends Dialog {
         super(mContext, style);
 
         setContentView(layout);
-        Window window = getWindow();
+        Window window = this.getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = gravity;
         window.setAttributes(layoutParams);
+//        ButterKnife.bind(this);
+
 
     }
 }

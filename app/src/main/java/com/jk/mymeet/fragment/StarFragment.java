@@ -1,5 +1,6 @@
 package com.jk.mymeet.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.jk.framework.adapter.CloudTagAdapter;
 import com.jk.framework.base.BaseFragment;
 import com.jk.mymeet.R;
+import com.jk.mymeet.adapter.CloudTagAdapter;
+import com.jk.mymeet.ui.AddFriendActivity;
 import com.moxun.tagcloudlib.view.TagCloudView;
 
 import java.util.ArrayList;
@@ -90,6 +92,7 @@ public class StarFragment extends BaseFragment {
             case R.id.iv_camera:
                 break;
             case R.id.iv_add:
+                startActivity(new Intent(getActivity(), AddFriendActivity.class));
                 break;
             case R.id.ll_random:
                 break;

@@ -1,7 +1,6 @@
 package com.jk.framework.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.jk.framework.BuildConfig;
 
@@ -16,13 +15,13 @@ public class LogUtils {
         if (TextUtils.isEmpty(text))
             return;
         if (BuildConfig.LOG_DEBUG)
-            Log.i(BuildConfig.LOG_TAG, text);
+            com.blankj.utilcode.util.LogUtils.i(text);
     }
 
     public static void e(String text) {
         if (TextUtils.isEmpty(text))
             return;
         if (BuildConfig.LOG_DEBUG)
-            Log.e(BuildConfig.LOG_TAG, text);
+            com.blankj.utilcode.util.LogUtils.e(text);
     }
 }

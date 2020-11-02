@@ -3,6 +3,7 @@ package com.jk.framework;
 import android.content.Context;
 
 import com.jk.framework.bmob.BmobManager;
+import com.jk.framework.cloud.CloudManager;
 import com.jk.framework.utils.SpUtils;
 
 /**
@@ -30,5 +31,7 @@ public class FrameWork {
     public void initFrameWork(Context mContext) {
         SpUtils.getInstance().initSp(mContext);
         BmobManager.getInstance().initBmob(mContext);
+        CloudManager.getInstance().initCloud(mContext);
+
     }
 }

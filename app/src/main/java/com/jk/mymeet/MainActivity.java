@@ -122,8 +122,6 @@ public class MainActivity extends BaseUIActivity {
     private void startCloudService() {
         LogUtils.i("startCloudService");
         startService(new Intent(this, CloudService.class));
-        //检查更新
-//        new UpdateHelper(this).updateApp(null);
     }
 
     private void checkToken() {

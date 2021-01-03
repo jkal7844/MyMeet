@@ -6,16 +6,25 @@ import android.os.IBinder;
 import android.view.SurfaceView;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.google.gson.Gson;
+import com.jk.framework.bmob.BmobManager;
 import com.jk.framework.cloud.CloudManager;
 import com.jk.framework.constants.Constants;
-import com.jk.framework.utils.SpUtils;
+import com.jk.framework.db.LitePalHelper;
+import com.jk.framework.event.EventManager;
+import com.jk.framework.gson.TextBean;
 
 import java.util.HashMap;
 
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import io.rong.calllib.IRongCallListener;
 import io.rong.calllib.IRongReceivedCallListener;
 import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
+import io.rong.imlib.model.Message;
+import io.rong.message.TextMessage;
 
 /**
  * Created By Admin on 2020/7/22
@@ -35,13 +44,14 @@ public class CloudService extends Service {
 
     private void linkCloudServer() {
         //获取Token
-        String token = SpUtils.getInstance().getString(Constants.SP_TOKEN, "");
-
+        String token = SPUtils.getInstance().getString(Constants.SP_TOKEN);
         //连接服务
         CloudManager.getInstance().connect(token);
+
+
         //接收消息
         CloudManager.getInstance().OnReceiveMessageListener((message, i) -> {
-//            parsingImMessage(message);
+            parsingImMessage(message);
             return false;
         });
 
@@ -59,7 +69,6 @@ public class CloudService extends Service {
              * 然后在onRequestPermissionResult回调里根据用户授权或者不授权分别回调
              * RongCallClient.getInstance().onPermissionGranted()和
              * RongCallClient.getInstance().onPermissionDenied()来通知CallLib。
-
              * @param rongCallSession 通话实体
              */
             @Override
@@ -67,7 +76,6 @@ public class CloudService extends Service {
                 LogUtils.i("onCheckPermission:" + rongCallSession.toString());
             }
         });
-
 
 
         //监听通话状态
@@ -121,8 +129,6 @@ public class CloudService extends Service {
              * @param mediaType   加入用户的媒体类型，audio or video。<br />
              * @param userType    加入用户的类型，1:正常用户,2:观察者。<br />
              * @param remoteVideo 加入用户者的 camera 信息。如果 userType为2，remoteVideo对象为空；<br />
-             *                    如果对端调用{@link RongCallClient#startCall(int, boolean, Conversation.ConversationType, String, List, List, RongCallCommon.CallMediaType, String, StartCameraCallback)} 或
-             *                    {@link RongCallClient#acceptCall(String, int, boolean, StartCameraCallback)}开始的音视频通话，则可以使用如下设置改变对端视频流的镜像显示：<br />
              *                    <pre class="prettyprint">
              *                                            public void onRemoteUserJoined(String userId, RongCallCommon.CallMediaType mediaType, int userType, SurfaceView remoteVideo) {
              *                                                 if (null != remoteVideo) {
@@ -208,5 +214,51 @@ public class CloudService extends Service {
 
             }
         });
+
+    }
+
+    /**
+     * 解析消息体
+     *
+     * @param message
+     */
+    private void parsingImMessage(Message message) {
+        LogUtils.i("message:" + message);
+        String objectName = message.getObjectName();
+        //文本消息
+        if (objectName.equals(CloudManager.MSG_TEXT_NAME)) {
+            //获取消息主体
+            TextMessage textMessage = (TextMessage) message.getContent();
+            String content = textMessage.getContent();
+            LogUtils.i("content:" + content);
+            TextBean textBean = null;
+            try {
+                textBean = new Gson().fromJson(content, TextBean.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (textBean.getType().equals(CloudManager.TYPE_ADD_FRIEND)) {
+                //存入数据库 Bmob RongCloud 都没有提供存储方法
+                //使用另外的方法来实现 存入本地数据库
+                LogUtils.i("添加好友消息");
+                LitePalHelper.getInstance().saveNewFriend(textBean.getMsg(), message.getSenderUserId());
+//                saveNewFriend(textBean.getMsg(), message.getSenderUserId());
+            }
+
+            else if (textBean.getType().equals(CloudManager.TYPE_ARGEED_FRIEND)) {
+                //1.添加到好友列表
+                BmobManager.getInstance().addFriend(message.getSenderUserId(), new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+//                            pushSystem(message.getSenderUserId(), 0, 1, 0, "");
+                            //2.刷新好友列表
+                            EventManager.post(EventManager.FLAG_UPDATE_FRIEND_LIST);
+                        }
+                    }
+                });
+            }
+        }
     }
 }

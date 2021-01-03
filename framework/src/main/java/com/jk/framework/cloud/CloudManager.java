@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.jk.framework.utils.LogUtils;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,6 +172,25 @@ public class CloudManager {
                 null,
                 iSendMessageCallback
         );
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param msg
+     * @param type
+     * @param targetId
+     */
+    public void sendTextMessage(String msg, String type, String targetId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("msg", msg);
+            //如果没有这个Type 就是一条普通消息
+            jsonObject.put("type", type);
+            sendTextMessage(jsonObject.toString(), targetId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

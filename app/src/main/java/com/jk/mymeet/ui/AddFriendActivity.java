@@ -106,8 +106,8 @@ public class AddFriendActivity extends BaseBackActivity {
                     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           /* UserInfoActivity.startActivity(AddFriendActivity.this,
-                                    model.getUserId());*/
+                            UserInfoActivity.startActivity(AddFriendActivity.this,
+                                    model.getUserId());
                         }
                     });
                 }

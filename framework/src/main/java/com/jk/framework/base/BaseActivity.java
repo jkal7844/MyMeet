@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -163,11 +164,16 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        EventManager.register(this);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        EventManager.unregister(this);
     }
-
 
 }

@@ -74,6 +74,17 @@
             android:label="@string/text_user_add_friend"
             android:launchMode="singleTask" />
 
+        <!--用户信息-->
+        <activity
+            android:name=".ui.UserInfoActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <!--新朋友-->
+        <activity
+            android:name=".ui.NewFriendActivity"
+            android:label="@string/text_me_item_title_3"
+            android:launchMode="singleTask" />
 
         <!--FileProvide-->
         <provider

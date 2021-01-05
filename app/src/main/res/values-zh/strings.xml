@@ -180,6 +180,14 @@
     <string name="text_server_status_text_5">服务器异常</string>
     <string name="text_server_status_text_6">令牌错误</string>
 
+    <string name="text_devices_not_supper_audio">The device does not support audio and video calls</string>
+
+    <string name="text_chat_add_friend_channl">add friends</string>
+    <string name="text_chat_argeed_friend_channl">agree friends</string>
+    <string name="text_chat_friend_msg_channl">friend message</string>
+
+    <string name="text_server_status">Server not connected</string>
+
     <string-array name="ConstellatioArray">
         <item>白羊座</item>
         <item>金牛座</item>

@@ -118,6 +118,16 @@ public class CloudManager {
     }
 
     /**
+     * 是否连接
+     *
+     * @return
+     */
+    public boolean isConnect() {
+        return RongIMClient.getInstance().getCurrentConnectionStatus()
+                == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED;
+    }
+
+    /**
      * 接收消息的监听器
      * @param listener
      */

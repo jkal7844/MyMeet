@@ -194,6 +194,38 @@ public class CloudManager {
     }
 
 
+    /**
+     * 查询本地的会话记录
+     *
+     * @param callback
+     */
+    public void getConversationList(RongIMClient.ResultCallback<List<Conversation>> callback) {
+        RongIMClient.getInstance().getConversationList(callback);
+    }
+
+    /**
+     * 加载本地的历史记录
+     *
+     * @param targetId
+     * @param callback
+     */
+    public void getHistoryMessages(String targetId, RongIMClient.ResultCallback<List<Message>> callback) {
+        RongIMClient.getInstance().getHistoryMessages(Conversation.ConversationType.PRIVATE
+                , targetId, -1, 1000, callback);
+    }
+
+    /**
+     * 获取服务器的历史记录
+     *
+     * @param targetId
+     * @param callback
+     */
+    public void getRemoteHistoryMessages(String targetId, RongIMClient.ResultCallback<List<Message>> callback) {
+        RongIMClient.getInstance().getRemoteHistoryMessages(Conversation.ConversationType.PRIVATE
+                , targetId, 0, 20, callback);
+    }
+
+
     //-------------------------Call Api-------------------------------
 
     /**

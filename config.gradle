@@ -30,6 +30,16 @@ ext {
             "multidex"       : 'com.android.support:multidex:1.0.1',
             "litepal"       : 'org.litepal.guolindev:core:3.2.2',
             "eventbus"       : 'org.greenrobot:eventbus:3.2.0',
+            "tablayout"      : 'com.google.android.material:material:1.0.0',
+//            "photoview"      : 'com.github.chrisbanes:PhotoView:2.3.0',
+            "3dmap"          : 'com.amap.api:3dmap:5.0.0',
+            "location"       : 'com.amap.api:location:3.3.0',
+            "search"         : 'com.amap.api:search:5.0.0',
+            "bugly"          : 'com.tencent.bugly:crashreport:2.1.9',
+            "buglyndk"       : 'com.tencent.bugly:nativecrashreport:3.0',
+            "zxing"          : 'cn.yipianfengye.android:zxing-library:2.2',
+            "videoplayer"    : 'cn.jzvd:jiaozivideoplayer:7.0.5',
+            "multidex"       : 'com.android.support:multidex:1.0.1',
     ]
 
     //仓库

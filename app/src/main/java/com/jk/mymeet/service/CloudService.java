@@ -3,6 +3,7 @@ package com.jk.mymeet.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.view.SurfaceView;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -13,6 +14,7 @@ import com.jk.framework.cloud.CloudManager;
 import com.jk.framework.constants.Constants;
 import com.jk.framework.db.LitePalHelper;
 import com.jk.framework.event.EventManager;
+import com.jk.framework.event.MessageEvent;
 import com.jk.framework.gson.TextBean;
 
 import java.util.HashMap;
@@ -24,6 +26,7 @@ import io.rong.calllib.IRongReceivedCallListener;
 import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
 import io.rong.imlib.model.Message;
+import io.rong.message.ImageMessage;
 import io.rong.message.TextMessage;
 
 /**
@@ -237,16 +240,21 @@ public class CloudService extends Service {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            if (textBean.getType().equals(CloudManager.TYPE_ADD_FRIEND)) {
+            //普通消息
+            if (textBean.getType().equals(CloudManager.TYPE_TEXT)) {
+                MessageEvent event = new MessageEvent(EventManager.FLAG_SEND_TEXT);
+                event.setText(textBean.getMsg());
+                event.setUserId(message.getSenderUserId());
+                EventManager.post(event);
+            }
+            //添加好友消息
+            else if (textBean.getType().equals(CloudManager.TYPE_ADD_FRIEND)) {
                 //存入数据库 Bmob RongCloud 都没有提供存储方法
                 //使用另外的方法来实现 存入本地数据库
                 LogUtils.i("添加好友消息");
                 LitePalHelper.getInstance().saveNewFriend(textBean.getMsg(), message.getSenderUserId());
 //                saveNewFriend(textBean.getMsg(), message.getSenderUserId());
-            }
-
-            else if (textBean.getType().equals(CloudManager.TYPE_ARGEED_FRIEND)) {
+            } else if (textBean.getType().equals(CloudManager.TYPE_ARGEED_FRIEND)) {
                 //1.添加到好友列表
                 BmobManager.getInstance().addFriend(message.getSenderUserId(), new SaveListener<String>() {
                     @Override
@@ -258,6 +266,23 @@ public class CloudService extends Service {
                         }
                     }
                 });
+            }
+        }
+        //图片消息
+        else if (objectName.equals(CloudManager.MSG_IMAGE_NAME)) {
+            try {
+                ImageMessage imageMessage = (ImageMessage) message.getContent();
+                String url = imageMessage.getRemoteUri().toString();
+                if (!TextUtils.isEmpty(url)) {
+                    LogUtils.i("url:" + url);
+                    MessageEvent event = new MessageEvent(EventManager.FLAG_SEND_IMAGE);
+                    event.setImgUrl(url);
+                    event.setUserId(message.getSenderUserId());
+                    EventManager.post(event);
+                }
+            } catch (Exception e) {
+                LogUtils.e("e." + e.toString());
+                e.printStackTrace();
             }
         }
     }
